@@ -46,7 +46,7 @@
                         </div>
                         <div class="price-add">
                             <span>$ 400 </span>
-                            <button class="btn addItem"> 
+                            <button class="btn addItem">
                                 <span>Add</span><i class="fa-solid fa-chevron-right"></i>
                             </button>
                             <div class="buttons-add">
@@ -192,16 +192,25 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
             <div class="nav">
-                <button class="shoppingCard btn">
+                <button class="shoppingCard btn" data-toggle="collapse" data-target="#cartShop" aria-expanded="false"
+                    aria-controls="cartShop">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </button>
                 <span id="amount-product">0</span>
             </div>
         </div>
+        <div class="collapse" id="cartShop">
+            <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when
+                the
+                user activates the relevant trigger.
+            </div>
+        </div>
     </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -214,6 +223,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="./js/models/product.js"></script>
+    <script src="./js/models/cart.js"></script>
+    <script src="./js/services/callapi.js"></script>
+    <script src="./js/controllers/main.js"></script>
 </body>
 
 </html>
