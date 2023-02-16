@@ -26,3 +26,30 @@
     border: none;
   }
 }
+
+#closeCart {
+  position: absolute;
+  top:0;
+  right: 0;
+  i {
+    @include style-icon($fs-2,$fs-2,$fs-2,$fs-1-6,$color-white);
+    border: none;
+  }
+}
+
+.btn-purchase {
+  border-color: $color-white;
+  color: $color-white;
+  padding: 15px 25px;
+  border-radius: $b-r-1;
+  i.fa-credit-card {
+    color: $color-puple;
+  }
+  i.fa-trash {
+    color: $color-red;
+  }
+  &:hover {
+    background-color: $color-white;
+    color: $color-black;
+  }
+}

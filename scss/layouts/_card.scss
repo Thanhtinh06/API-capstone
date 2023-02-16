@@ -40,9 +40,9 @@
           @include width-height($width-11-5,$height-11-5);
           margin: 0 auto;
           left: 0;
-          transform: translateY(-35px);
+          transform: translateY(0px);
           img {
-            width: 100%;
+            width: 90%;
             align-self: center;
           }
         }
