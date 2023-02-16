@@ -1,0 +1,21 @@
+.nav {
+  .shoppingCard {
+    @include style-position(absolute, $t-1-2, $r-1-6, none);
+    border: none;
+    background-color: transparent;
+    i {
+      font-size: $fs-2;
+    }
+    :hover {
+      color: $color-white;
+      cursor: pointer;
+      transition: all 0.5s;
+      outline: none;
+    }
+  }
+  #amount-product {
+    @include style-position(absolute,$t-1-2,$r-1-6,2);
+    background: $color-white;
+    @include style-icon($fs-1, $fs-1, $fs-1, $fs-1, $color-black);
+  }
+}

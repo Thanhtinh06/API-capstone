@@ -1,0 +1,52 @@
+@mixin style-text($fz, $color) {
+  font-size: $fz;
+  color: $color;
+}
+
+@mixin style-button($pd-y, $pd-x, $bg, $bd) {
+  padding: $pd-y $pd-x;
+  background: $bg;
+  border-radius: $b-r-3;
+  border: $bd;
+}
+
+@mixin button-hover($color) {
+  color: $color;
+}
+
+@mixin flex-between() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin style-flex($justify,$align,$flex-direc,$wrap){
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $flex-direc;
+  flex-wrap: $wrap;
+}
+
+@mixin style-icon($w, $h, $l-h, $fs, $color) {
+  color: $color;
+  border-radius: 50%;
+  border: 1px solid $color-white;
+  text-align: center;
+  width: $w;
+  height: $h;
+  line-height: $l-h;
+  font-size: $fs;
+}
+
+@mixin style-position($pos, $t, $r, $z) {
+  position: $pos;
+  top: $t;
+  right: $r;
+  z-index: $z;
+}
+
+@mixin width-height($w,$h){
+  width: $w;
+  height: $h;
+}

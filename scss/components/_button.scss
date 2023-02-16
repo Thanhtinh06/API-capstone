@@ -1,0 +1,28 @@
+.buttons-add {
+    align-items: center;
+    display: none;
+    button {
+      padding: $pd-0;
+      i {
+        @include style-icon($fs-1-6,$fs-1-6,$fs-1-6,$fs-1,$color-white);
+      }
+    }
+}
+.addItem {
+  display: flex;
+  @include style-text($fs-0-8, $color-white);
+  border: 1px solid $color-white;
+  border-radius: $b-r-1-6;
+  background-color: transparent;
+  &:hover {
+    background-color: $color-white;
+    color: $color-black;
+  }
+}
+
+.heart {
+  i {
+    @include style-icon($fs-1-6,$fs-1-6,$fs-1-6,$fs-1,$color-white);
+    border: none;
+  }
+}
