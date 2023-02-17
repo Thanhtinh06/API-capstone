@@ -18,4 +18,14 @@
     background: $color-white;
     @include style-icon($fs-1, $fs-1, $fs-1, $fs-1, $color-black);
   }
+  .iphone-android {
+    @extend .shoppingCard;
+    right: 130px;
+
+  }
+  .filter {
+    @extend .shoppingCard;
+    right: 80px;
+    top: 23px;
+  }
 }
