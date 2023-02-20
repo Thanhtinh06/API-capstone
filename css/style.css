@@ -198,9 +198,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
   color: white;
-  display: none;
 }
 #app .banner .main-cart .cart:hover {
   height: 28.125rem;

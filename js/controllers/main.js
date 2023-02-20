@@ -1,93 +1,112 @@
-//call API 
-
 let callApi = new CallApi();
+var cartList = [];
+getLocalStage();
 
+function getEle(id) {
+  return document.getElementById(id);
+}
 
-//DOM ID
-
-function getEle(id){
-    return document.getElementById(id);
+function getQuery(seletor) {
+  return document.querySelector(seletor);
 }
 
 getEle("filterProduct").style.visibility = "hidden";
 
-getEle("cartMain").addEventListener("click",function(){
-    getEle("cartShop").style.visibility = "visible";
-})
+getEle("cartMain").addEventListener("click", function () {
+  getEle("cartShop").style.visibility = "visible";
+});
 
-getEle("closeCart").addEventListener("click",function(){
-    getEle("cartShop").style.visibility = "hidden";
-})
+getEle("closeCart").addEventListener("click", function () {
+  getEle("cartShop").style.visibility = "hidden";
+});
 
-getEle("btnFilter").addEventListener("click",function(){
-    getEle("filterProduct").style.visibility = "visible";
-})
+getEle("btnFilter").addEventListener("click", function () {
+  getEle("filterProduct").style.visibility = "visible";
+});
 
+getEle("cartShop").addEventListener("onclick", function () {
+  getEle("cartShop").style.visibility = "hidden";
+});
 
-
-
-function renderListProduct(data){
-    let contentHTML = "";
-    data.forEach(function(product){
-        contentHTML += `
-        <div class="cart">
-                    <div class="title">
-                        <i class="fa-brands ${product.logo}"></i>
-                        <p class="product-status">${product.status}</p>
-                    </div>
-                    <div class="img-container">
-                        <img src="${product.img}"
-                            alt="" />
-                    </div>
-                    <div class="product-detail">
-                        <div class="name-product">
-                            <p>${product.name}</p>
-                            <button class="btn heart">
-                                <i class="fa-solid fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="describe-product">
-                            <ul>
-                                <li>Type: ${product.type}</li>
-                                <li>Screen: ${product.screen}</li>
-                                <li>Back Camera: ${product.backCamera}</li>
-                                <li>Front Camera: ${product.frontCamera}</li>
-                                <li>Desc: ${product.desc}</li>
-                            </ul>
-                        </div>
-                        <div class="price-add">
-                            <span>$ ${product.price}</span>
-                            <button class="btn addItem">
-                                <span>Add</span><i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                            <div class="buttons-add">
-                                <button class="btn minus">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </button>
-                                <span>1</span>
-                                <button class="btn plus">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-        `
+function getListProduct() {
+  callApi
+    .fetchListData()
+    .then(function (result) {
+      renderListProduct(result.data);
     })
-    getEle("mainCart").innerHTML = contentHTML;
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
-function getListProdcut(){
-    callApi
-        .fetchListData()
-        .then(function(result){
-            renderListProduct(result.data);
-        })
-        .catch(function(error){
-            console.log(error);
-        })
+function addToCart(id) {
+  getEle(`btn${id}`).style.display = "flex";
+  getEle(`add${id}`).style.display = "none";
+  getEle(`btn${id}`).setAttribute('hasCart','true');
+
+  callApi
+    .getDetailProduct(id)
+    .then((result) => {
+      let item = cartList.find((item) => item.product.id === result.data.id);
+      if(item == undefined){
+        const cartItem = new CartItem(result.data);
+        cartItem.id = result.data.id;
+        cartList.push(cartItem);
+        getQuery(`.quality${id}`).innerHTML = cartItem.quality;
+        setLocalStage();
+        getLocalStage();
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+function changeQuality(id, isPlus) {
+  let item = cartList.find((item) => item.product.id == id);
+  if (item) {
+    let qualityElement = getQuery(`.quality${id}`);
+    let quality = parseInt(qualityElement.innerHTML);
+    if (quality > 0) {
+      if (isPlus) {
+        quality += 1;
+      } else {
+        quality -= 1;
+      }
+      item.quality = quality;
+    } else {
+      getEle(`btn${id}`).style.display = "none";
+      getEle(`add${id}`).style.display = "block";
+    }
+    qualityElement.innerHTML = item.quality;
+  }
+}
+
+function clearAllCart() {
+  cartList = [];
+  setLocalStage();
+  getLocalStage();
+}
+
+function deleteItem(id){
+  let index = cartList.findIndex((item) => item.product.id === id);
+  if(index) {
+    cartList.splice(index,0);
+    setLocalStage();
+    getLocalStage();
+  }
+  };
+
+
+function setLocalStage() {
+  localStorage.setItem("CartList", JSON.stringify(cartList));
+}
+function getLocalStage() {
+  let dataString = localStorage.getItem("CartList");
+  cartList = JSON.parse(dataString);
+  renderCartList(cartList);
 }
 
 
-getListProdcut();
 
+getListProduct();

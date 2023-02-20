@@ -56,25 +56,8 @@
                 </button>
             </div>
             <div class="body-cart">
-                <div class="cartList">
-                    <div class="cartItem">
-                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-11-pro-midnight-green-select-2019?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1566954990073"
-                            alt="" />
-                        <p>Apple Watch</p>
-                        <div class="buttons-add">
-                            <button class="btn minus">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <span>1</span>
-                            <button class="btn plus">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                        </div>
-                        <p>$3500</p>
-                        <button class="trashItem">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
+                <div class="cartList" id="cartList">
+                
                 </div>
             </div>
             <div class="bottom-cart">
@@ -84,7 +67,7 @@
                         <span>Purchase</span>
                         <i class="fa-solid fa-credit-card"></i>
                     </button>
-                    <button type="button" class="btn btn-purchase">
+                    <button type="button" class="btn btn-purchase" onclick="clearAllCart()">
                         <span>Clear Cart</span>
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -107,8 +90,9 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/models/product.js"></script>
-    <script src="./js/models/cart.js"></script>
+    <script src="./js/models/cartItem.js"></script>
     <script src="./js/services/callapi.js"></script>
+    <script src="./js/controllers/render.js"></script>
     <script src="./js/controllers/main.js"></script>
 </body>
 
