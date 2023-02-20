@@ -83,9 +83,7 @@
           }
           .price-add {
             @include flex-between();
-            padding: 0 $pd-1;
             color: $color-white;
-            display: none;
             
           }
         }

@@ -1,5 +1,6 @@
 class Product {
     constructor(name,price,screen,backCamera,frontCamera,img,desc,type,status,logo){
+        this.id;
         this.name = name;
         this.price = price;
         this.screen = screen;
@@ -12,3 +13,4 @@ class Product {
         this.logo = logo;
     }
 }
+
