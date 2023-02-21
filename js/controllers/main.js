@@ -1,5 +1,7 @@
 let callApi = new CallApi();
 var cartList = [];
+var totalPayment;
+var totalAmount;
 getLocalStage();
 
 function getEle(id) {
@@ -28,6 +30,8 @@ getEle("cartShop").addEventListener("onclick", function () {
   getEle("cartShop").style.visibility = "hidden";
 });
 
+
+
 function getListProduct() {
   callApi
     .fetchListData()
@@ -38,6 +42,8 @@ function getListProduct() {
       console.log(error);
     });
 }
+
+
 
 function addToCart(id) {
   getEle(`btn${id}`).style.display = "flex";
@@ -60,10 +66,11 @@ function addToCart(id) {
     .catch(function (error) {
       console.log(error);
     });
+
 }
 
 function changeQuality(id, isPlus) {
-  let item = cartList.find((item) => item.product.id == id);
+  let item = cartList.find((item) => item.id == id);
   if (item) {
     let qualityElement = getQuery(`.quality${id}`);
     let quality = parseInt(qualityElement.innerHTML);
@@ -74,11 +81,14 @@ function changeQuality(id, isPlus) {
         quality -= 1;
       }
       item.quality = quality;
-    } else {
+    } else if (quality == 0) {
+      deleteItem(id);
       getEle(`btn${id}`).style.display = "none";
       getEle(`add${id}`).style.display = "block";
     }
     qualityElement.innerHTML = item.quality;
+    setLocalStage();
+    getLocalStage();
   }
 }
 
@@ -88,15 +98,14 @@ function clearAllCart() {
   getLocalStage();
 }
 
-function deleteItem(id){
-  let index = cartList.findIndex((item) => item.product.id === id);
-  if(index) {
-    cartList.splice(index,0);
+function deleteItem(cartItemID){
+  let index = cartList.findIndex((item) => item.id == cartItemID);
+  if(index !== -1) {
+    cartList.splice(index,1);
     setLocalStage();
     getLocalStage();
   }
-  };
-
+}
 
 function setLocalStage() {
   localStorage.setItem("CartList", JSON.stringify(cartList));
@@ -105,8 +114,14 @@ function getLocalStage() {
   let dataString = localStorage.getItem("CartList");
   cartList = JSON.parse(dataString);
   renderCartList(cartList);
+  totalPayment = cartList.reduce((totalPayment,cartItem) => {
+    return totalPayment += parseFloat(cartItem.quality) * parseFloat(cartItem.product.price)
+  },0)
+  totalAmount = cartList.reduce((totalAmount,cartItem)=>{
+    return totalAmount += cartItem.quality
+  },0)
+  getEle("amount-product").innerHTML = totalAmount;
+  getEle("totalCart").innerHTML = `Total: ${totalPayment}`;
 }
-
-
 
 getListProduct();
