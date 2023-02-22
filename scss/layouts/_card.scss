@@ -84,7 +84,6 @@
           .price-add {
             @include flex-between();
             color: $color-white;
-            
           }
         }
         &:hover {
@@ -110,6 +109,44 @@
             }
           }
         }
+      }
+    }
+  }
+  #notiProduct {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    visibility: hidden;
+    .modalNoti {
+      background-color: #010101;
+      display: flex;
+      flex-direction: column;
+      height: 150px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      justify-content: space-between;
+      color: white;
+      padding: $pd-1-2;
+      border-radius: $b-r-1;
+      align-items: center;
+      p {
+        width: 80%;
+        text-align: center;
+        font-style: italic;
+        font-size: $fs-1-1;
+      }
+      button {
+        width: 100%;
+        padding: $pd-0-6 $pd-0-6;
+        border-radius: $b-r-1;
+        color: white;
+        background-color: $color-light-blue;
+
       }
     }
   }
