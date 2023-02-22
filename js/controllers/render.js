@@ -2,9 +2,9 @@ function renderListProduct(data) {
   let contentHTML = "";
   for (let product of data) {
     let isInStock = "in stock";
-    let productLowerCase = product.status.toLowerCase()
-    if(productLowerCase === isInStock){
-        contentHTML += `
+    let productLowerCase = product.status.toLowerCase();
+    if (productLowerCase === isInStock) {
+      contentHTML += `
         <div class="cart">
             <div class="title">
                 <i class="fa-brands ${product.logo}"></i>
@@ -56,6 +56,7 @@ function renderListProduct(data) {
 function renderCartList(data) {
   let contentHTML = "";
   for (let cartItem of data) {
+    let price = parseFloat(cartItem.product.price) *  parseFloat(cartItem.quality)
     contentHTML += `
         <div class="cartItem">
             <img src="../images/${cartItem.product.img}"
@@ -71,7 +72,7 @@ function renderCartList(data) {
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
-            <p>${cartItem.product.price}</p>
+            <p>${price}</p>
             <button class="trashItem" onclick="deleteItem(${cartItem.id})">
                 <i class="fa-solid fa-trash"></i>
             </button>
@@ -80,4 +81,16 @@ function renderCartList(data) {
           `;
   }
   getEle("cartList").innerHTML = contentHTML;
+}
+
+function renderInvoice(data) {
+  let result = data.reduce((htmlValue, cartItem) => {
+    let price = parseFloat(cartItem.product.price) *  parseFloat(cartItem.quality)
+    return (htmlValue += `<tr>
+        <li class="item">
+            <span>${cartItem.quality} x ${ cartItem.product.name}</span>
+            <span>$ ${price}</span>
+    </li>`);
+  }, "");
+  return result;
 }

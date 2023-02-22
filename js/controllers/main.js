@@ -130,6 +130,8 @@ function getTotalPayment() {
       parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
   }, 0);
   getEle("totalCart").innerHTML = `Total: ${totalPayment}`;
+  getEle("pay").innerHTML = `$${totalPayment}`;
+  getEle("payed").innerHTML = `$${totalPayment}`;
 }
 
 function getTotalAmount() {
@@ -137,6 +139,7 @@ function getTotalAmount() {
     return (totalAmount += cartItem.quality);
   }, 0);
   getEle("amount-product").innerHTML = totalAmount;
+ 
 }
 
 function setLocalStage() {
@@ -166,5 +169,36 @@ function getTypeFilter(id,data){
       renderListProduct(arr);
     });
 }
+
+function purchase(){
+  getEle('cartShop').style.display = "none";
+  getEle('purchase').style.display = "block";
+  getEle('shipping-item').innerHTML = renderInvoice(cartList);
+  
+}
+
+function order(){
+  getEle('purchase').style.display = "none";
+  getEle('orderSuccess').style.visibility = "visible";
+  getEle('closeSucess').addEventListener('click', function(){
+    closeSession('orderSuccess');
+    clearAllCart();
+    getEle('continue').style.visibility = "visible";
+    getEle('closeThank').addEventListener('click',function(){
+      closeSession('continue');
+    })
+  })
+
+}
+
+function cancel(){
+  getEle('purchase').style.display = "none";
+  getEle('cartShop').style.display = "block";
+}
+
+function closeSession(id){
+  getEle(id).style.visibility = "hidden";
+}
+
 
 getListProduct();

@@ -14,7 +14,7 @@
     }
   }
   #amount-product {
-    @include style-position(absolute,$t-1-2,$r-1-6,2);
+    @include style-position(absolute,$t-1-2,$r-1-6,none);
     background: $color-white;
     @include style-icon($fs-1, $fs-1, $fs-1, $fs-1, $color-black);
   }

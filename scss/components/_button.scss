@@ -54,3 +54,13 @@
   }
 }
 
+.order {
+  @extend .btn-purchase;
+  background-color: $color-light-blue;
+}
+.cancel {
+  @extend .btn-purchase;
+  background-color: $color-red;
+}
+
+

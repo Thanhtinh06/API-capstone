@@ -150,4 +150,17 @@
       }
     }
   }
+  #orderSuccess {
+    @extend #notiProduct;
+    .modalNoti {
+      width: 500px;
+      height: 350px;
+      p,button{
+        margin: $mg-0-8 $mg-2;
+      }
+    }
+  }
+  #continue {
+    @extend #notiProduct;
+  }
 }
