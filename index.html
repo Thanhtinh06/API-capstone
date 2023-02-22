@@ -29,7 +29,8 @@
                 <!--ListProduct -->
             </div>
             <div class="nav">
-                <button id="btnFilter" class="filter" data-toggle="collapse" data-target="#filterProduct" aria-expanded="false" aria-controls="filterProduct">
+                <button id="btnFilter" class="filter" data-toggle="collapse" data-target="#filterProduct"
+                    aria-expanded="false" aria-controls="filterProduct">
                     <i class="fa-solid fa-filter"></i>
                 </button>
                 <div class="iphone-android" class="collapse" id="filterProduct">
@@ -56,12 +57,12 @@
                 </button>
             </div>
             <div class="body-cart">
+                <!-- <p id="notiNoItem">Looks Like You Haven't Added Any Product In The Cart</p> -->
                 <div class="cartList" id="cartList">
-                
                 </div>
             </div>
             <div class="bottom-cart">
-                <p id="totalCart">Total: $ 3500</p>
+                <p id="totalCart"></p>
                 <div class="group-button">
                     <button type="button" class="btn btn-purchase">
                         <span>Purchase</span>
@@ -72,6 +73,12 @@
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
+            </div>
+        </div>
+        <div id="notiProduct">
+            <div class="modalNoti">
+                <p>You Can Only Buy 10 Items For Each Product</p>
+                <button id="closeNoti">OKAY</button>
             </div>
         </div>
     </div>

@@ -8,6 +8,15 @@
     background-color: $color-black;
     width: 60%;
     height: 100vh;
+    #notiNoItem{
+        color: rgba(255, 255, 255, 0.25);
+        font-size: $fs-2;
+        text-align: center;
+        width: 90%;
+        margin: auto;
+        padding-top: $pd-10;
+        visibility: hidden;
+    }
     h2 {
         text-align: center;
         color: white;

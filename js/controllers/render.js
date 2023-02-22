@@ -1,7 +1,8 @@
 function renderListProduct(data) {
   let contentHTML = "";
   for (let product of data) {
-    contentHTML += `
+    if(product.status === "Instock"){
+        contentHTML += `
         <div class="cart">
             <div class="title">
                 <i class="fa-brands ${product.logo}"></i>
@@ -45,6 +46,7 @@ function renderListProduct(data) {
             </div>
         </div> 
         `;
+    }
   }
   getEle("mainCart").innerHTML = contentHTML;
 }
