@@ -12,6 +12,10 @@ function getQuery(seletor) {
   return document.querySelector(seletor);
 }
 
+const filterProduct = (data, type = "Samsung") => {
+  return data.filter((product) => product.type == type);
+};
+
 getEle("filterProduct").style.visibility = "hidden";
 
 getEle("cartMain").addEventListener("click", function () {
@@ -39,6 +43,7 @@ function getListProduct() {
     .fetchListData()
     .then(function (result) {
       renderListProduct(result.data);
+      showFilterProduct(result.data);
     })
     .catch(function (error) {
       console.log(error);
@@ -61,7 +66,7 @@ function addToCart(id) {
         setLocalStage();
         getLocalStage();
       } else {
-        let amount = getAmount(id)
+        let amount = getAmount(id);
         getQuery(`.quality${id}`).innerHTML = amount;
       }
     })
@@ -99,7 +104,7 @@ function changeQuality(id, isPlus) {
 
 function getAmount(id) {
   let hasItem = cartList.find((item) => item.product.id == id);
-  return hasItem.quality
+  return hasItem.quality;
 }
 
 function clearAllCart() {
@@ -146,20 +151,20 @@ function getLocalStage() {
   getTotalPayment();
 }
 
-// const filterProduct = (type="Android") => {
-//   let arrFilterProduct = [];
-//   callApi 
-//   .fetchListData()
-//   .then((result)=>{
-    
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   })
-//   return arrFilterProduct
-// } 
+function showFilterProduct(data) {
+  getEle("btnFilter").addEventListener("click", () => {
+    getListProduct();
+    getTypeFilter('toggle-on',data);
+    getTypeFilter('toggle-off',data);
+  });
+}
 
-
-
+function getTypeFilter(id,data){
+  const input = getEle(id);
+    input.addEventListener("change", () => {
+      let arr = filterProduct(data, input.value);
+      renderListProduct(arr);
+    });
+}
 
 getListProduct();

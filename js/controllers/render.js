@@ -1,7 +1,9 @@
 function renderListProduct(data) {
   let contentHTML = "";
   for (let product of data) {
-    if(product.status === "Instock"){
+    let isInStock = "in stock";
+    let productLowerCase = product.status.toLowerCase()
+    if(productLowerCase === isInStock){
         contentHTML += `
         <div class="cart">
             <div class="title">
@@ -9,7 +11,7 @@ function renderListProduct(data) {
                 <p class="product-status">${product.status}</p>
             </div>
             <div class="img-container">
-                <img src="${product.img}"
+                <img src="../images/${product.img}"
                     alt="" />
             </div>
             <div class="product-detail">
@@ -56,7 +58,7 @@ function renderCartList(data) {
   for (let cartItem of data) {
     contentHTML += `
         <div class="cartItem">
-            <img src="${cartItem.product.img}"
+            <img src="../images/${cartItem.product.img}"
                 alt="" />
             <p>${cartItem.product.name}</p>
             

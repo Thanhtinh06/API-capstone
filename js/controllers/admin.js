@@ -38,7 +38,7 @@ const renderData = (data) => {
       <td>${product.backCamera}</td>
       <td>${product.frontCamera}</td>
       <td>
-        <img src='./../../images/${product.img}' width='100' alt='${product.img}'/>
+        <img src='../images/${product.img}' width='100' alt='${product.img}'/>
       </td>
       <td>${product.type}</td>
       <td>${product.status}</td>
