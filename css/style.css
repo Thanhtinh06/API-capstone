@@ -64,21 +64,29 @@ body {
   border: none;
 }
 
-.btn-purchase {
+.btn-purchase, .cancel, .order {
   border-color: white;
   color: white;
   padding: 15px 25px;
   border-radius: 1rem;
 }
-.btn-purchase i.fa-credit-card {
+.btn-purchase i.fa-credit-card, .cancel i.fa-credit-card, .order i.fa-credit-card {
   color: #6665dd;
 }
-.btn-purchase i.fa-trash {
+.btn-purchase i.fa-trash, .cancel i.fa-trash, .order i.fa-trash {
   color: #bb342f;
 }
-.btn-purchase:hover {
+.btn-purchase:hover, .cancel:hover, .order:hover {
   background-color: white;
   color: black;
+}
+
+.order {
+  background-color: #5bc0be;
+}
+
+.cancel {
+  background-color: #bb342f;
 }
 
 #app {
@@ -223,7 +231,7 @@ body {
 #app .banner .main-cart .cart:hover .product-detail .price-add .addItem {
   display: flex;
 }
-#app #notiProduct {
+#app #notiProduct, #app #continue, #app #orderSuccess {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -233,7 +241,7 @@ body {
   z-index: 10;
   visibility: hidden;
 }
-#app #notiProduct .modalNoti {
+#app #notiProduct .modalNoti, #app #continue .modalNoti, #app #orderSuccess .modalNoti {
   background-color: #010101;
   display: flex;
   flex-direction: column;
@@ -248,20 +256,26 @@ body {
   border-radius: 1rem;
   align-items: center;
 }
-#app #notiProduct .modalNoti p {
+#app #notiProduct .modalNoti p, #app #continue .modalNoti p, #app #orderSuccess .modalNoti p {
   width: 80%;
   text-align: center;
   font-style: italic;
   font-size: 1.1rem;
 }
-#app #notiProduct .modalNoti button {
+#app #notiProduct .modalNoti button, #app #continue .modalNoti button, #app #orderSuccess .modalNoti button {
   width: 100%;
   padding: 0.6rem 0.6rem;
   border-radius: 1rem;
   color: white;
   background-color: #5bc0be;
 }
-
+#app #orderSuccess .modalNoti {
+  width: 500px;
+  height: 350px;
+}
+#app #orderSuccess .modalNoti p, #app #orderSuccess .modalNoti button {
+  margin: 0.8rem 2rem;
+}
 .nav .shoppingCard, .nav .filter, .nav .iphone-android {
   position: absolute;
   top: 1.2rem;
@@ -283,7 +297,7 @@ body {
   position: absolute;
   top: 1.2rem;
   right: 1.6rem;
-  z-index: 2;
+  z-index: none;
   background: white;
   color: black;
   border-radius: 50%;
@@ -423,4 +437,40 @@ input[type=radio].toggle:checked + label {
 }
 input[type=radio].toggle:checked + label:after {
   left: 0;
+}
+
+#purchase {
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.634);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+}
+#purchase .main-purchase {
+  margin: 2rem;
+  padding: 1.2rem;
+  width: 95%;
+  height: 90%;
+  background-color: black;
+  border-radius: 1rem;
+  color: white;
+}
+#purchase .main-purchase ul {
+  list-style: none;
+}
+#purchase .main-purchase ul li {
+  display: flex;
+  justify-content: space-between;
+}
+#purchase .main-purchase .total-payment {
+  display: flex;
+  justify-content: space-between;
+}
+#purchase .main-purchase hr {
+  color: white;
+}
+#purchase .main-purchase .groupBtn-purchase {
+  padding-top: 5rem;
 }/*# sourceMappingURL=style.css.map */

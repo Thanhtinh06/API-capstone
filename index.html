@@ -35,7 +35,8 @@
                 </button>
                 <div class="iphone-android" class="collapse" id="filterProduct">
                     <div class="myRadio" id="btnAS">
-                        <input id="toggle-on" class="toggle toggle-left" name="toggle" value="Samsung" type="radio" checked  />
+                        <input id="toggle-on" class="toggle toggle-left" name="toggle" value="Samsung" type="radio"
+                            checked />
                         <label for="toggle-on" class="btnRadio"><i class="fa-brands fa-android"></i></label>
                         <input id="toggle-off" class="toggle toggle-right" name="toggle" value="Iphone" type="radio" />
                         <label for="toggle-off" class="btnRadio"><i class="fa-brands fa-apple"></i></label>
@@ -63,7 +64,7 @@
             <div class="bottom-cart">
                 <p id="totalCart"></p>
                 <div class="group-button">
-                    <button type="button" class="btn btn-purchase">
+                    <button type="button" class="btn btn-purchase" onclick="purchase()">
                         <span>Purchase</span>
                         <i class="fa-solid fa-credit-card"></i>
                     </button>
@@ -78,6 +79,40 @@
             <div class="modalNoti">
                 <p>You Can Only Buy 10 Items For Each Product</p>
                 <button id="closeNoti">OKAY</button>
+            </div>
+        </div>
+        <div id="purchase">
+            <div class="main-purchase">
+                <div id="detail-order">
+                    <ul id="shipping-item">
+                    </ul>
+                    <hr>
+                    <div class="payment">
+                        <em>Payment</em>
+                        <div class="total-payment">
+                            <p>total amount to be paid:</p><span class="pay" id="pay"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="groupBtn-purchase">
+                    <button class="btn order" id="order" onclick="order()">Order Now</button>
+                    <button class="btn cancel" id="cancel" onclick="cancel()"> Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div id="orderSuccess">
+            <div class="modalNoti">
+                <p>Your order has been placed </p>
+                <p>Your order will be delivered to you in 3-5 working days</p>
+                <p>You can pay <span id="payed"></span> by card or any online transaction method after the products have
+                    been dilivered to you</p>
+                <button id="closeSucess" >OKAY</button>
+            </div>
+        </div>
+        <div id="continue">
+            <div class="modalNoti">
+                <p>Thanks for shopping with us</p>
+                <button id="closeThank">Continue</button>
             </div>
         </div>
     </div>
