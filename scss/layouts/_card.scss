@@ -84,6 +84,9 @@
           .price-add {
             @include flex-between();
             color: $color-white;
+            button {
+              @include flex-between();
+            }
           }
         }
         &:hover {

@@ -54,10 +54,10 @@
                 <h2>Cart</h2>
                 <button class="btn" id="closeCart">
                     <i class="fa-solid fa-xmark"></i>
-                </button>
+                </button>                
+                <p id="notiNoItem">Looks Like You Haven't Added Any Product In The Cart</p> 
             </div>
             <div class="body-cart">
-                <!-- <p id="notiNoItem">Looks Like You Haven't Added Any Product In The Cart</p> -->
                 <div class="cartList" id="cartList">
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 <p>Your order will be delivered to you in 3-5 working days</p>
                 <p>You can pay <span id="payed"></span> by card or any online transaction method after the products have
                     been dilivered to you</p>
-                <button id="closeSucess" >OKAY</button>
+                <button id="closeSucess">OKAY</button>
             </div>
         </div>
         <div id="continue">
@@ -130,6 +130,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/models/constVariable.js"></script>
     <script src="./js/models/product.js"></script>
     <script src="./js/models/cartItem.js"></script>
     <script src="./js/services/callapi.js"></script>

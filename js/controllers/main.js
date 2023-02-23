@@ -1,44 +1,95 @@
+// DOM utility functions
+const getEle = (id) => document.getElementById(id);
+const getQuery = (selector) => document.querySelector(selector);
+
+// Element visibility manipulation functions
+const show = (ele) => (ele.style.visibility = "visible");
+const hide = (ele) => (ele.style.visibility = "hidden");
+
+// Element display manipulation functions
+const showBlock = (ele) => (ele.style.display = "block");
+const hideBlock = (ele) => (ele.style.display = "none");
+const showBlockFlex = (ele) => (ele.style.display = "flex");
+
+// Element innerHTML
+
+const showText = (ele, content) => (ele.textContent = content);
+
+// Event listeners
+getEle("cartMain").addEventListener("click", () => show(getEle("cartShop")));
+getEle("closeCart").addEventListener("click", () => hide(getEle("cartShop")));
+getEle("btnFilter").addEventListener("click", () =>
+  show(getEle("filterProduct"))
+);
+getEle("cartShop").addEventListener("onclick", () => hide(getEle("cartShop")));
+getEle("closeNoti").addEventListener("click", () =>
+  hide(getEle("notiProduct"))
+);
+hideBlock(getEle("filterProduct"));
+
+//filter product
+const filterProduct = (data, type = "Samsung") => {
+  return data.filter((product) => product.type == type);
+};
+
+//get amount
+const getAmount = (id) => {
+  let item = cartList.find((item) => item.product.id == id);
+  return item.quality;
+};
+
+// get Total payment
+const getTotalPayment = () => {
+  totalPayment = cartList.reduce((totalPayment, cartItem) => {
+    return (totalPayment +=
+      parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
+  }, 0);
+  showText(getEle("totalCart"), `Total: ${totalPayment}`);
+  showText(getEle("pay"), `$${totalPayment}`);
+  showText(getEle("payed"), `$${totalPayment}`);
+};
+
+//get total amout => show in shopCart
+const getTotalAmount = () => {
+  totalAmount = cartList.reduce((totalAmount, cartItem) => {
+    return (totalAmount += cartItem.quality);
+  }, 0);
+  showText(getEle("amount-product"), totalAmount);
+};
+
+//cancel order => close block
+const cancel = () => {
+  hideBlock(getEle("purchase"));
+  showBlock(getEle("cartShop"));
+};
+
+
+const setLocalStage = () => {
+  localStorage.setItem("CartList", JSON.stringify(cartList));
+}
+
+//getLocal => get data from local => call 2 function amount & payment => update data when cartList change
+const getLocalStage = () => {
+  let dataString = localStorage.getItem("CartList");
+  cartList = JSON.parse(dataString);
+  renderCartList(cartList);
+  getTotalAmount();
+  getTotalPayment();
+}
+
+const callFnLocal = () => {
+  setLocalStage();
+  getLocalStage();
+};
+
+
 let callApi = new CallApi();
 var cartList = [];
 var totalPayment;
 var totalAmount;
 getLocalStage();
 
-function getEle(id) {
-  return document.getElementById(id);
-}
-
-function getQuery(seletor) {
-  return document.querySelector(seletor);
-}
-
-const filterProduct = (data, type = "Samsung") => {
-  return data.filter((product) => product.type == type);
-};
-
-getEle("filterProduct").style.visibility = "hidden";
-
-getEle("cartMain").addEventListener("click", function () {
-  getEle("cartShop").style.visibility = "visible";
-});
-
-getEle("closeCart").addEventListener("click", function () {
-  getEle("cartShop").style.visibility = "hidden";
-});
-
-getEle("btnFilter").addEventListener("click", function () {
-  getEle("filterProduct").style.visibility = "visible";
-});
-
-getEle("cartShop").addEventListener("onclick", function () {
-  getEle("cartShop").style.visibility = "hidden";
-});
-
-getEle("closeNoti").addEventListener("click", function () {
-  getEle("notiProduct").style.visibility = "hidden";
-});
-
-function getListProduct() {
+const getListProduct = () =>{
   callApi
     .fetchListData()
     .then(function (result) {
@@ -50,9 +101,9 @@ function getListProduct() {
     });
 }
 
-function addToCart(id) {
-  getEle(`btn${id}`).style.display = "flex";
-  getEle(`add${id}`).style.display = "none";
+const addToCart = (id) => {
+  showBlockFlex(getEle(`btn${id}`));
+  hideBlock(getEle(`add${id}`));
 
   callApi
     .getDetailProduct(id)
@@ -62,12 +113,11 @@ function addToCart(id) {
         const cartItem = new CartItem(result.data);
         cartItem.id = result.data.id;
         cartList.push(cartItem);
-        getQuery(`.quality${id}`).innerHTML = cartItem.quality;
-        setLocalStage();
-        getLocalStage();
+        showText(getQuery(`.quality${id}`), cartItem.quality);
+        callFnLocal();
       } else {
         let amount = getAmount(id);
-        getQuery(`.quality${id}`).innerHTML = amount;
+        showText(getQuery(`.quality${id}`), amount);
       }
     })
     .catch(function (error) {
@@ -75,11 +125,11 @@ function addToCart(id) {
     });
 }
 
-function changeQuality(id, isPlus) {
+const changeQuality = (id, isPlus) => {
   let item = cartList.find((item) => item.id == id);
   if (item) {
     let qualityElement = getQuery(`.quality${id}`);
-    let quality = parseInt(qualityElement.innerHTML);
+    let quality = parseInt(qualityElement.textContent);
     if (quality > 0 && quality < 11) {
       if (isPlus) {
         quality += 1;
@@ -89,116 +139,66 @@ function changeQuality(id, isPlus) {
       item.quality = quality;
     }
     if (quality >= 10) {
-      getEle("notiProduct").style.visibility = "visible";
+      show(getEle("notiProduct"));
     }
-    qualityElement.innerHTML = item.quality;
+    qualityElement.textContent = item.quality;
     if (quality < 1) {
       deleteItem(id);
-      getEle(`btn${id}`).style.display = "none";
-      getEle(`add${id}`).style.display = "block";
+      hideBlock(getEle(`btn${id}`));
+      showBlock(getEle(`add${id}`));
     }
-    setLocalStage();
-    getLocalStage();
+    callFnLocal();
   }
 }
-
-function getAmount(id) {
-  let hasItem = cartList.find((item) => item.product.id == id);
-  return hasItem.quality;
-}
-
-function clearAllCart() {
+const clearAllCart = () => {
   cartList = [];
-  setLocalStage();
-  getLocalStage();
+  callFnLocal();
   getListProduct();
 }
 
-function deleteItem(cartItemID) {
+const deleteItem = (cartItemID) => {
   let index = cartList.findIndex((item) => item.id == cartItemID);
   if (index !== -1) {
     cartList.splice(index, 1);
-    setLocalStage();
-    getLocalStage();
+    callFnLocal();
     getListProduct();
   }
 }
 
-function getTotalPayment() {
-  totalPayment = cartList.reduce((totalPayment, cartItem) => {
-    return (totalPayment +=
-      parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
-  }, 0);
-  getEle("totalCart").innerHTML = `Total: ${totalPayment}`;
-  getEle("pay").innerHTML = `$${totalPayment}`;
-  getEle("payed").innerHTML = `$${totalPayment}`;
-}
-
-function getTotalAmount() {
-  totalAmount = cartList.reduce((totalAmount, cartItem) => {
-    return (totalAmount += cartItem.quality);
-  }, 0);
-  getEle("amount-product").innerHTML = totalAmount;
- 
-}
-
-function setLocalStage() {
-  localStorage.setItem("CartList", JSON.stringify(cartList));
-}
-
-function getLocalStage() {
-  let dataString = localStorage.getItem("CartList");
-  cartList = JSON.parse(dataString);
-  renderCartList(cartList);
-  getTotalAmount();
-  getTotalPayment();
-}
-
-function showFilterProduct(data) {
+const showFilterProduct  = (data) => {
   getEle("btnFilter").addEventListener("click", () => {
     getListProduct();
-    getTypeFilter('toggle-on',data);
-    getTypeFilter('toggle-off',data);
+    getTypeFilter("toggle-on", data);
+    getTypeFilter("toggle-off", data);
   });
 }
 
-function getTypeFilter(id,data){
+const getTypeFilter = (id, data) => {
   const input = getEle(id);
-    input.addEventListener("change", () => {
-      let arr = filterProduct(data, input.value);
-      renderListProduct(arr);
-    });
+  input.addEventListener("change", () => {
+    let arr = filterProduct(data, input.value);
+    renderListProduct(arr);
+  });
 }
 
-function purchase(){
-  getEle('cartShop').style.display = "none";
-  getEle('purchase').style.display = "block";
-  getEle('shipping-item').innerHTML = renderInvoice(cartList);
-  
-}
+const purchase = () => {
+  showBlock(getEle("purchase"));
+  hideBlock(getEle("cartShop"));
+  getEle("shipping-item").innerHTML = renderInvoice(cartList);
+};
 
-function order(){
-  getEle('purchase').style.display = "none";
-  getEle('orderSuccess').style.visibility = "visible";
-  getEle('closeSucess').addEventListener('click', function(){
-    closeSession('orderSuccess');
+const order = () => {
+  hideBlock(getEle("purchase"));
+  show(getEle("orderSuccess"));
+  getEle("closeSucess").addEventListener("click", function () {
+    hide(getEle("orderSuccess"));
     clearAllCart();
-    getEle('continue').style.visibility = "visible";
-    getEle('closeThank').addEventListener('click',function(){
-      closeSession('continue');
-    })
-  })
-
-}
-
-function cancel(){
-  getEle('purchase').style.display = "none";
-  getEle('cartShop').style.display = "block";
-}
-
-function closeSession(id){
-  getEle(id).style.visibility = "hidden";
-}
+    show(getEle("continue"));
+    getEle("closeThank").addEventListener("click", function () {
+      hide(getEle("continue"));
+    });
+  });
+};
 
 
 getListProduct();
