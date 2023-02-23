@@ -22,13 +22,13 @@ getEle("cartMain").addEventListener("click", () => {
 });
 
 getEle("closeCart").addEventListener("click", () => hide(getEle("cartShop")));
+
 getEle("btnFilter").addEventListener("click", () =>
   showBlock(getEle("filterProduct"))
 );
 
-getEle("cartShop").addEventListener("click", () => hide(getEle("cartShop")));
 getEle("closeNoti").addEventListener("click", () =>
-  hide(getEle("notiProduct"))
+  hideBlock(getEle("notiProduct"))
 );
 
 
@@ -119,13 +119,14 @@ const changeQuality = (id, isPlus) => {
     let item = cartList.find((item) => item.id == id);
     if (item) {
       let qualityElement = getQuery(`.quality${id}`);
-      let quality = parseInt(qualityElement.textContent);
+      let quality = parseInt(qualityElement.textContent);  
+      if(quality == 10){
+        showBlock(getEle("notiProduct"));
+      }    
       if (quality > 0 && quality < 11) {
         if (isPlus) {
           if(quality < 10){
             quality += 1;
-          }else{
-            show(getEle("notiProduct"));
           }
         } else {
           quality -= 1;
@@ -178,7 +179,7 @@ const getTypeFilter = (id, data) => {
 const purchase = () => {
   if (cartList.length > 0) {
     showBlock(getEle("purchase"));
-    hideBlock(getEle("cartShop"));
+    hide(getEle("cartShop"));
     getEle("shipping-item").innerHTML = renderInvoice(cartList);
   }
 };
@@ -197,7 +198,6 @@ const order = () => {
     showBlock(getEle("continue"));
     getEle("closeThank").addEventListener("click", function () {
       hideBlock(getEle("continue"));
-      showBlock(getEle('cartShop'));
     });
   });
 };
@@ -206,7 +206,7 @@ const order = () => {
 //cancel order => close block
 const cancel = () => {
   hideBlock(getEle("purchase"));
-  showBlock(getEle("cartShop"));
+  show(getEle("cartShop"));
 };
 
 function setLocalStage (){
