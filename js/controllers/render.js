@@ -53,35 +53,37 @@ function renderListProduct(data) {
   getEle("mainCart").innerHTML = contentHTML;
 }
 
-function renderCartList(data) {
+function renderCartList(data=cartList) {
     let contentHTML = "";
-    for (let cartItem of data) {
-      let price =
-        parseFloat(cartItem.product.price) * parseFloat(cartItem.quality);
-      contentHTML += `
-        <div class="cartItem">
-            <img src="../images/${cartItem.product.img}"
-                alt="" />
-            <p>${cartItem.product.name}</p>
-            
-            <div class="buttons-add">
-                <button class="btn minus" onclick="changeQuality(${cartItem.product.id},false)">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <span class="quality${cartItem.product.id}"> ${cartItem.quality} </span>
-                <button class="btn plus" onclick="changeQuality(${cartItem.product.id},true)">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
-            <p>${price}</p>
-            <button class="trashItem" onclick="deleteItem(${cartItem.id})">
-                <i class="fa-solid fa-trash"></i>
-            </button>
-        </div>
-          
-          `;
-    }
-    getEle("cartList").innerHTML = contentHTML;
+    if (data != null) {
+        for (let cartItem of data) {
+            let price =
+              parseFloat(cartItem.product.price) * parseFloat(cartItem.quality);
+            contentHTML += `
+              <div class="cartItem">
+                  <img src="../images/${cartItem.product.img}"
+                      alt="" />
+                  <p>${cartItem.product.name}</p>
+                  
+                  <div class="buttons-add">
+                      <button class="btn minus" onclick="changeQuality(${cartItem.product.id},false)">
+                          <i class="fa-solid fa-chevron-left"></i>
+                      </button>
+                      <span class="quality${cartItem.product.id}"> ${cartItem.quality} </span>
+                      <button class="btn plus" onclick="changeQuality(${cartItem.product.id},true)">
+                          <i class="fa-solid fa-chevron-right"></i>
+                      </button>
+                  </div>
+                  <p>${price}</p>
+                  <button class="trashItem" onclick="deleteItem(${cartItem.id})">
+                      <i class="fa-solid fa-trash"></i>
+                  </button>
+              </div>
+                
+                `;
+          }
+          getEle("cartList").innerHTML = contentHTML;
+    } 
   }
 
 function renderInvoice(data) {
