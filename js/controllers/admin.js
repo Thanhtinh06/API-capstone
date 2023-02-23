@@ -77,7 +77,9 @@ const btnAdd = () => {
   }
   var isValid = true;
   isValid &= validation.checkEmpty(name, "validName", "Please input name");
-  isValid &= validation.checkEmpty(price, "validPrice", "Please input price");
+  isValid &=
+    validation.checkEmpty(price, "validPrice", "Please input price") &&
+    validation.checkPositive(price, "validPrice", "Price must be positive");
   isValid &= validation.checkEmpty(
     screen,
     "validScreen",
@@ -163,7 +165,9 @@ const btnUpdate = (id) => {
   }
   let isValid = true;
   isValid &= validation.checkEmpty(name, "validName", "Please input name");
-  isValid &= validation.checkEmpty(price, "validPrice", "Please input price");
+  isValid &=
+    validation.checkEmpty(price, "validPrice", "Please input price") &&
+    validation.checkPositive(price, "validPrice", "Price must be positive");
   isValid &= validation.checkEmpty(
     screen,
     "validScreen",
