@@ -16,19 +16,20 @@ const showBlockFlex = (ele) => (ele.style.display = "flex");
 const showText = (ele, content) => (ele.textContent = content);
 
 // Event listeners
+hideBlock(getEle("filterProduct"));
 getEle("cartMain").addEventListener("click", () => {
   show(getEle("cartShop"));
 });
+
 getEle("closeCart").addEventListener("click", () => hide(getEle("cartShop")));
 getEle("btnFilter").addEventListener("click", () =>
   showBlock(getEle("filterProduct"))
 );
-getEle("cartShop").addEventListener("onclick", () => hide(getEle("cartShop")));
+
+getEle("cartShop").addEventListener("click", () => hide(getEle("cartShop")));
 getEle("closeNoti").addEventListener("click", () =>
   hide(getEle("notiProduct"))
 );
-hideBlock(getEle("filterProduct"));
-
 
 
 //filter product
@@ -67,11 +68,6 @@ const getTotalAmount = () => {
     }, 0);
     showText(getEle("amount-product"), totalAmount);
   }
-};
-
-function callFnLocal(){
-  setLocalStage();
-  getLocalStage();
 };
 
 let callApi = new CallApi();
@@ -194,13 +190,14 @@ const purchase = () => {
  */
 const order = () => {
   hideBlock(getEle("purchase"));
-  show(getEle("orderSuccess"));
+  showBlock(getEle("orderSuccess"));
   getEle("closeSucess").addEventListener("click", function () {
-    hide(getEle("orderSuccess"));
+    hideBlock(getEle("orderSuccess"));
     clearAllCart();
-    show(getEle("continue"));
+    showBlock(getEle("continue"));
     getEle("closeThank").addEventListener("click", function () {
-      hide(getEle("continue"));
+      hideBlock(getEle("continue"));
+      showBlock(getEle('cartShop'));
     });
   });
 };
@@ -223,6 +220,11 @@ function getLocalStage(){
   renderCartList(cartList);
   getTotalAmount();
   getTotalPayment();
+};
+
+function callFnLocal(){
+  setLocalStage();
+  getLocalStage();
 };
 
 getListProduct();

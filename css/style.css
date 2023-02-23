@@ -244,7 +244,7 @@ body {
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
   z-index: 10;
-  visibility: hidden;
+  display: none;
 }
 #app #notiProduct .modalNoti, #app #continue .modalNoti, #app #orderSuccess .modalNoti {
   background-color: #010101;
