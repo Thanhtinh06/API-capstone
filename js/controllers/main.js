@@ -73,7 +73,9 @@ const setLocalStage = () => {
 const getLocalStage = () => {
   let dataString = localStorage.getItem("CartList");
   cartList = JSON.parse(dataString);
-  renderCartList(cartList);
+  if(cartList.length >0) {
+    renderCartList(cartList);
+  }
   getTotalAmount();
   getTotalPayment();
 };
