@@ -42,13 +42,15 @@ const getAmount = (id) => {
 
 // get Total payment
 const getTotalPayment = () => {
-  totalPayment = cartList.reduce((totalPayment, cartItem) => {
-    return (totalPayment +=
-      parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
-  }, 0);
-  showText(getEle("totalCart"), `Total: ${totalPayment}`);
-  showText(getEle("pay"), `$${totalPayment}`);
-  showText(getEle("payed"), `$${totalPayment}`);
+  if(cartList !== null){
+    totalPayment = cartList.reduce((totalPayment, cartItem) => {
+      return (totalPayment +=
+        parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
+    }, 0);
+    showText(getEle("totalCart"), `Total: ${totalPayment}`);
+    showText(getEle("pay"), `$${totalPayment}`);
+    showText(getEle("payed"), `$${totalPayment}`);
+  }
 };
 
 //get total amout => show in shopCart
