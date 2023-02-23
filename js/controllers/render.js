@@ -54,10 +54,12 @@ function renderListProduct(data) {
 }
 
 function renderCartList(data) {
-  let contentHTML = "";
-  for (let cartItem of data) {
-    let price = parseFloat(cartItem.product.price) *  parseFloat(cartItem.quality)
-    contentHTML += `
+  if (data.length > 0) {
+    let contentHTML = "";
+    for (let cartItem of data) {
+      let price =
+        parseFloat(cartItem.product.price) * parseFloat(cartItem.quality);
+      contentHTML += `
         <div class="cartItem">
             <img src="../images/${cartItem.product.img}"
                 alt="" />
@@ -79,16 +81,18 @@ function renderCartList(data) {
         </div>
           
           `;
+    }
+    getEle("cartList").innerHTML = contentHTML;
   }
-  getEle("cartList").innerHTML = contentHTML;
 }
 
 function renderInvoice(data) {
   let result = data.reduce((htmlValue, cartItem) => {
-    let price = parseFloat(cartItem.product.price) *  parseFloat(cartItem.quality)
+    let price =
+      parseFloat(cartItem.product.price) * parseFloat(cartItem.quality);
     return (htmlValue += `<tr>
         <li class="item">
-            <span>${cartItem.quality} x ${ cartItem.product.name}</span>
+            <span>${cartItem.quality} x ${cartItem.product.name}</span>
             <span>$ ${price}</span>
     </li>`);
   }, "");

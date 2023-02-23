@@ -208,6 +208,11 @@ body {
   justify-content: space-between;
   color: white;
 }
+#app .banner .main-cart .cart .product-detail .price-add button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 #app .banner .main-cart .cart:hover {
   height: 28.125rem;
   width: 17.5rem;
@@ -334,7 +339,7 @@ body {
   width: 90%;
   margin: auto;
   padding-top: 10rem;
-  visibility: hidden;
+  display: none;
 }
 #cartShop h2 {
   text-align: center;

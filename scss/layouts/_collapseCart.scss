@@ -1,3 +1,4 @@
+
 #cartShop {
     visibility: hidden;
     padding-top: 10px;
@@ -15,7 +16,7 @@
         width: 90%;
         margin: auto;
         padding-top: $pd-10;
-        visibility: hidden;
+        display: none;
     }
     h2 {
         text-align: center;
