@@ -55,10 +55,12 @@ const getTotalPayment = () => {
 
 //get total amout => show in shopCart
 const getTotalAmount = () => {
+  if(cartList !== null){
   totalAmount = cartList.reduce((totalAmount, cartItem) => {
     return (totalAmount += cartItem.quality);
   }, 0);
   showText(getEle("amount-product"), totalAmount);
+}
 };
 
 //cancel order => close block
