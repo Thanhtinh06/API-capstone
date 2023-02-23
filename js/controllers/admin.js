@@ -42,7 +42,9 @@ const renderData = (data) => {
       </td>
       <td>${product.type}</td>
       <td>${product.status}</td>
-      <td>${product.logo}</td>
+      <td>
+        <i class='fa-brands ${product.logo} fs-1'></i>
+      </td>
       <td>
         <button type='button' class='btn btn-primary' onclick='btnEdit("${product.id}")' 
         data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
