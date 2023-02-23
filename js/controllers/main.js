@@ -16,7 +16,9 @@ const showBlockFlex = (ele) => (ele.style.display = "flex");
 const showText = (ele, content) => (ele.textContent = content);
 
 // Event listeners
-getEle("cartMain").addEventListener("click", () => show(getEle("cartShop")));
+getEle("cartMain").addEventListener("click", () => {
+  show(getEle("cartShop"));
+});
 getEle("closeCart").addEventListener("click", () => hide(getEle("cartShop")));
 getEle("btnFilter").addEventListener("click", () =>
   show(getEle("filterProduct"))
@@ -63,10 +65,9 @@ const cancel = () => {
   showBlock(getEle("cartShop"));
 };
 
-
 const setLocalStage = () => {
   localStorage.setItem("CartList", JSON.stringify(cartList));
-}
+};
 
 //getLocal => get data from local => call 2 function amount & payment => update data when cartList change
 const getLocalStage = () => {
@@ -75,13 +76,12 @@ const getLocalStage = () => {
   renderCartList(cartList);
   getTotalAmount();
   getTotalPayment();
-}
+};
 
 const callFnLocal = () => {
   setLocalStage();
   getLocalStage();
 };
-
 
 let callApi = new CallApi();
 var cartList = [];
@@ -89,7 +89,8 @@ var totalPayment;
 var totalAmount;
 getLocalStage();
 
-const getListProduct = () =>{
+
+const getListProduct = () => {
   callApi
     .fetchListData()
     .then(function (result) {
@@ -99,9 +100,11 @@ const getListProduct = () =>{
     .catch(function (error) {
       console.log(error);
     });
-}
+};
+
 
 const addToCart = (id) => {
+  
   showBlockFlex(getEle(`btn${id}`));
   hideBlock(getEle(`add${id}`));
 
@@ -123,7 +126,8 @@ const addToCart = (id) => {
     .catch(function (error) {
       console.log(error);
     });
-}
+};
+
 
 const changeQuality = (id, isPlus) => {
   let item = cartList.find((item) => item.id == id);
@@ -149,12 +153,13 @@ const changeQuality = (id, isPlus) => {
     }
     callFnLocal();
   }
-}
+};
 const clearAllCart = () => {
   cartList = [];
   callFnLocal();
   getListProduct();
-}
+
+};
 
 const deleteItem = (cartItemID) => {
   let index = cartList.findIndex((item) => item.id == cartItemID);
@@ -163,15 +168,15 @@ const deleteItem = (cartItemID) => {
     callFnLocal();
     getListProduct();
   }
-}
+};
 
-const showFilterProduct  = (data) => {
+const showFilterProduct = (data) => {
   getEle("btnFilter").addEventListener("click", () => {
     getListProduct();
     getTypeFilter("toggle-on", data);
     getTypeFilter("toggle-off", data);
   });
-}
+};
 
 const getTypeFilter = (id, data) => {
   const input = getEle(id);
@@ -179,14 +184,21 @@ const getTypeFilter = (id, data) => {
     let arr = filterProduct(data, input.value);
     renderListProduct(arr);
   });
-}
-
-const purchase = () => {
-  showBlock(getEle("purchase"));
-  hideBlock(getEle("cartShop"));
-  getEle("shipping-item").innerHTML = renderInvoice(cartList);
 };
 
+const purchase = () => {
+  if(cartList.length > 0){
+    showBlock(getEle("purchase"));
+    hideBlock(getEle("cartShop"));
+    getEle("shipping-item").innerHTML = renderInvoice(cartList);
+  }
+};
+
+/**
+ * onclick order => hide session purchase and show noti order successful =>
+ * onclick okay => hide noti & clear cart => show noti thank
+ * onlick continue => hide noti continue
+ */
 const order = () => {
   hideBlock(getEle("purchase"));
   show(getEle("orderSuccess"));
@@ -199,6 +211,5 @@ const order = () => {
     });
   });
 };
-
 
 getListProduct();

@@ -54,7 +54,6 @@ function renderListProduct(data) {
 }
 
 function renderCartList(data) {
-  if (data.length > 0) {
     let contentHTML = "";
     for (let cartItem of data) {
       let price =
@@ -84,7 +83,6 @@ function renderCartList(data) {
     }
     getEle("cartList").innerHTML = contentHTML;
   }
-}
 
 function renderInvoice(data) {
   let result = data.reduce((htmlValue, cartItem) => {
