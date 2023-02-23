@@ -21,7 +21,7 @@ getEle("cartMain").addEventListener("click", () => {
 });
 getEle("closeCart").addEventListener("click", () => hide(getEle("cartShop")));
 getEle("btnFilter").addEventListener("click", () =>
-  show(getEle("filterProduct"))
+  showBlock(getEle("filterProduct"))
 );
 getEle("cartShop").addEventListener("onclick", () => hide(getEle("cartShop")));
 getEle("closeNoti").addEventListener("click", () =>
@@ -29,18 +29,6 @@ getEle("closeNoti").addEventListener("click", () =>
 );
 hideBlock(getEle("filterProduct"));
 
-const setLocalStage = () => {
-  localStorage.setItem("CartList", JSON.stringify(cartList));
-};
-
-//getLocal => get data from local => call 2 function amount & payment => update data when cartList change
-const getLocalStage = () => {
-  let dataString = localStorage.getItem("CartList");
-  cartList = JSON.parse(dataString);
-  renderCartList(cartList);
-  getTotalAmount();
-  getTotalPayment();
-};
 
 
 //filter product
@@ -81,7 +69,7 @@ const getTotalAmount = () => {
   }
 };
 
-const callFnLocal = () => {
+function callFnLocal(){
   setLocalStage();
   getLocalStage();
 };
@@ -138,14 +126,15 @@ const changeQuality = (id, isPlus) => {
       let quality = parseInt(qualityElement.textContent);
       if (quality > 0 && quality < 11) {
         if (isPlus) {
-          quality += 1;
+          if(quality < 10){
+            quality += 1;
+          }else{
+            show(getEle("notiProduct"));
+          }
         } else {
           quality -= 1;
         }
         item.quality = quality;
-      }
-      if (quality >= 10) {
-        show(getEle("notiProduct"));
       }
       qualityElement.textContent = item.quality;
       if (quality < 1) {
@@ -221,6 +210,19 @@ const order = () => {
 const cancel = () => {
   hideBlock(getEle("purchase"));
   showBlock(getEle("cartShop"));
+};
+
+function setLocalStage (){
+  localStorage.setItem("CartList", JSON.stringify(cartList));
+};
+
+//getLocal => get data from local => call 2 function amount & payment => update data when cartList change
+function getLocalStage(){
+  let dataString = localStorage.getItem("CartList");
+  cartList = JSON.parse(dataString) || [];
+  renderCartList(cartList);
+  getTotalAmount();
+  getTotalPayment();
 };
 
 getListProduct();
