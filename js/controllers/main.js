@@ -29,46 +29,6 @@ getEle("closeNoti").addEventListener("click", () =>
 );
 hideBlock(getEle("filterProduct"));
 
-//filter product
-const filterProduct = (data, type = "Samsung") => {
-  return data.filter((product) => product.type == type);
-};
-
-//get amount
-const getAmount = (id) => {
-  let item = cartList.find((item) => item.product.id == id);
-  return item.quality;
-};
-
-// get Total payment
-const getTotalPayment = () => {
-  if(cartList !== null){
-    totalPayment = cartList.reduce((totalPayment, cartItem) => {
-      return (totalPayment +=
-        parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
-    }, 0);
-    showText(getEle("totalCart"), `Total: ${totalPayment}`);
-    showText(getEle("pay"), `$${totalPayment}`);
-    showText(getEle("payed"), `$${totalPayment}`);
-  }
-};
-
-//get total amout => show in shopCart
-const getTotalAmount = () => {
-  if(cartList !== null){
-  totalAmount = cartList.reduce((totalAmount, cartItem) => {
-    return (totalAmount += cartItem.quality);
-  }, 0);
-  showText(getEle("amount-product"), totalAmount);
-}
-};
-
-//cancel order => close block
-const cancel = () => {
-  hideBlock(getEle("purchase"));
-  showBlock(getEle("cartShop"));
-};
-
 const setLocalStage = () => {
   localStorage.setItem("CartList", JSON.stringify(cartList));
 };
@@ -82,6 +42,45 @@ const getLocalStage = () => {
   getTotalPayment();
 };
 
+
+//filter product
+const filterProduct = (data, type = "Samsung") => {
+  if (cartList !== null) {
+    return data.filter((product) => product.type == type);
+  }
+};
+
+//get amount
+const getAmount = (id) => {
+  if (cartList !== null) {
+    let item = cartList.find((item) => item.product.id == id);
+    return item.quality;
+  }
+};
+
+// get Total payment
+const getTotalPayment = () => {
+  if (cartList !== null) {
+    totalPayment = cartList.reduce((totalPayment, cartItem) => {
+      return (totalPayment +=
+        parseFloat(cartItem.quality) * parseFloat(cartItem.product.price));
+    }, 0);
+    showText(getEle("totalCart"), `Total: ${totalPayment}`);
+    showText(getEle("pay"), `$${totalPayment}`);
+    showText(getEle("payed"), `$${totalPayment}`);
+  }
+};
+
+//get total amout => show in shopCart
+const getTotalAmount = () => {
+  if (cartList !== null) {
+    totalAmount = cartList.reduce((totalAmount, cartItem) => {
+      return (totalAmount += cartItem.quality);
+    }, 0);
+    showText(getEle("amount-product"), totalAmount);
+  }
+};
+
 const callFnLocal = () => {
   setLocalStage();
   getLocalStage();
@@ -92,7 +91,6 @@ var cartList = [];
 var totalPayment;
 var totalAmount;
 getLocalStage();
-
 
 const getListProduct = () => {
   callApi
@@ -106,25 +104,25 @@ const getListProduct = () => {
     });
 };
 
-
 const addToCart = (id) => {
-  
   showBlockFlex(getEle(`btn${id}`));
   hideBlock(getEle(`add${id}`));
 
   callApi
     .getDetailProduct(id)
     .then((result) => {
-      let item = cartList.find((item) => item.product.id === result.data.id);
-      if (item == undefined) {
-        const cartItem = new CartItem(result.data);
-        cartItem.id = result.data.id;
-        cartList.push(cartItem);
-        showText(getQuery(`.quality${id}`), cartItem.quality);
-        callFnLocal();
-      } else {
-        let amount = getAmount(id);
-        showText(getQuery(`.quality${id}`), amount);
+      if (cartList !== null) {
+        let item = cartList.find((item) => item.product.id === result.data.id);
+        if (item == undefined) {
+          const cartItem = new CartItem(result.data);
+          cartItem.id = result.data.id;
+          cartList.push(cartItem);
+          showText(getQuery(`.quality${id}`), cartItem.quality);
+          callFnLocal();
+        } else {
+          let amount = getAmount(id);
+          showText(getQuery(`.quality${id}`), amount);
+        }
       }
     })
     .catch(function (error) {
@@ -132,45 +130,47 @@ const addToCart = (id) => {
     });
 };
 
-
 const changeQuality = (id, isPlus) => {
-  let item = cartList.find((item) => item.id == id);
-  if (item) {
-    let qualityElement = getQuery(`.quality${id}`);
-    let quality = parseInt(qualityElement.textContent);
-    if (quality > 0 && quality < 11) {
-      if (isPlus) {
-        quality += 1;
-      } else {
-        quality -= 1;
+  if (cartList !== null) {
+    let item = cartList.find((item) => item.id == id);
+    if (item) {
+      let qualityElement = getQuery(`.quality${id}`);
+      let quality = parseInt(qualityElement.textContent);
+      if (quality > 0 && quality < 11) {
+        if (isPlus) {
+          quality += 1;
+        } else {
+          quality -= 1;
+        }
+        item.quality = quality;
       }
-      item.quality = quality;
+      if (quality >= 10) {
+        show(getEle("notiProduct"));
+      }
+      qualityElement.textContent = item.quality;
+      if (quality < 1) {
+        deleteItem(id);
+        hideBlock(getEle(`btn${id}`));
+        showBlock(getEle(`add${id}`));
+      }
+      callFnLocal();
     }
-    if (quality >= 10) {
-      show(getEle("notiProduct"));
-    }
-    qualityElement.textContent = item.quality;
-    if (quality < 1) {
-      deleteItem(id);
-      hideBlock(getEle(`btn${id}`));
-      showBlock(getEle(`add${id}`));
-    }
-    callFnLocal();
   }
 };
 const clearAllCart = () => {
   cartList = [];
   callFnLocal();
   getListProduct();
-
 };
 
 const deleteItem = (cartItemID) => {
-  let index = cartList.findIndex((item) => item.id == cartItemID);
-  if (index !== -1) {
-    cartList.splice(index, 1);
-    callFnLocal();
-    getListProduct();
+  if (cartList !== null) {
+    let index = cartList.findIndex((item) => item.id == cartItemID);
+    if (index !== -1) {
+      cartList.splice(index, 1);
+      callFnLocal();
+      getListProduct();
+    }
   }
 };
 
@@ -191,7 +191,7 @@ const getTypeFilter = (id, data) => {
 };
 
 const purchase = () => {
-  if(cartList.length > 0){
+  if (cartList.length > 0) {
     showBlock(getEle("purchase"));
     hideBlock(getEle("cartShop"));
     getEle("shipping-item").innerHTML = renderInvoice(cartList);
@@ -214,6 +214,13 @@ const order = () => {
       hide(getEle("continue"));
     });
   });
+};
+
+
+//cancel order => close block
+const cancel = () => {
+  hideBlock(getEle("purchase"));
+  showBlock(getEle("cartShop"));
 };
 
 getListProduct();
